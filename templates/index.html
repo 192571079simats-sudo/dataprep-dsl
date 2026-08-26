@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DataPrep-DSL &mdash; Compiler Console</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">&#9647;&#9646;&#9645;</span>
+    <div class="brand-text">
+      <h1>DataPrep&#8209;DSL</h1>
+      <p>A domain-specific compiler for automated data preprocessing</p>
+    </div>
+  </div>
+  <ol class="pipeline" id="pipeline-track">
+    <li data-stage="lexer"><span class="dot"></span>Lexer</li>
+    <li data-stage="parser"><span class="dot"></span>Parser</li>
+    <li data-stage="semantic"><span class="dot"></span>IR&nbsp;Gen</li>
+    <li data-stage="optimizer"><span class="dot"></span>Optimizer</li>
+    <li data-stage="backend"><span class="dot"></span>Backend</li>
+    <li data-stage="runtime"><span class="dot"></span>Execute</li>
+  </ol>
+</header>
+
+<main class="workspace">
+
+  <section class="editor-pane">
+    <div class="pane-head">
+      <h2>Script <span class="mono">.dprep</span></h2>
+      <div class="pane-actions">
+        <button id="load-example" class="ghost-btn" type="button">Example</button>
+        <a id="download-sample" class="ghost-btn" href="/sample-csv">Sample CSV</a>
+      </div>
+    </div>
+    <textarea id="script" spellcheck="false">{{ default_script }}</textarea>
+
+    <div class="upload-row">
+      <label class="file-drop" for="csv-input">
+        <span id="file-label">Drop a CSV here or click to choose one</span>
+        <input type="file" id="csv-input" accept=".csv">
+      </label>
+      <button id="run-btn" type="button">Compile &amp; Run &#9654;</button>
+    </div>
+
+    <div id="error-box" class="error-box hidden"></div>
+  </section>
+
+  <section class="output-pane">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="preview">Output</button>
+      <button class="tab" data-tab="tokens">Tokens</button>
+      <button class="tab" data-tab="ast">AST</button>
+      <button class="tab" data-tab="ir">IR</button>
+      <button class="tab" data-tab="optimized">Optimized IR</button>
+      <button class="tab" data-tab="code">Generated .py</button>
+      <button class="tab" data-tab="trace">Trace</button>
+    </div>
+
+    <div class="tab-panels">
+
+      <div class="tab-panel active" id="panel-preview">
+        <div id="preview-empty" class="placeholder">
+          Run a pipeline to see the resulting table here.
+        </div>
+        <div id="preview-meta" class="preview-meta hidden"></div>
+        <div class="table-scroll"><table id="preview-table"></table></div>
+        <div id="download-row" class="download-row hidden">
+          <a id="dl-csv" class="ghost-btn" href="#">Download output.csv</a>
+          <a id="dl-py" class="ghost-btn" href="#">Download pipeline.py</a>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="panel-tokens">
+        <p class="panel-note">Module 1 &middot; stream produced by the lexical scanner.</p>
+        <div class="table-scroll"><table id="tokens-table"></table></div>
+      </div>
+
+      <div class="tab-panel" id="panel-ast">
+        <p class="panel-note">Module 1 &middot; abstract syntax tree from the recursive-descent parser.</p>
+        <pre id="ast-view" class="code-view"></pre>
+      </div>
+
+      <div class="tab-panel" id="panel-ir">
+        <p class="panel-note">Module 2 &middot; linear intermediate representation after semantic analysis.</p>
+        <div id="ir-warnings" class="notes-box"></div>
+        <div class="table-scroll"><table id="ir-table"></table></div>
+      </div>
+
+      <div class="tab-panel" id="panel-optimized">
+        <p class="panel-note">Module 3 &middot; IR after dead-code elimination, redundant-op folding and filter pushdown.</p>
+        <div id="opt-notes" class="notes-box"></div>
+        <div class="table-scroll"><table id="optimized-table"></table></div>
+      </div>
+
+      <div class="tab-panel" id="panel-code">
+        <p class="panel-note">Module 3 &middot; standalone Python/pandas script compiled from the optimized IR.</p>
+        <pre id="code-view" class="code-view"></pre>
+      </div>
+
+      <div class="tab-panel" id="panel-trace">
+        <p class="panel-note">Module 3 &middot; row/column counts after each executed instruction.</p>
+        <div class="table-scroll"><table id="trace-table"></table></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <span>Module&nbsp;1: Lexical &amp; Syntax Analysis &nbsp;&bull;&nbsp; Module&nbsp;2: Semantic Analysis &amp; IR &nbsp;&bull;&nbsp; Module&nbsp;3: Optimization, Backend &amp; Web Interface</span>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

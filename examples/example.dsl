@@ -1,0 +1,13 @@
+# DataPrep-DSL example pipeline
+LOAD "input.csv" AS df
+DROP COLUMN "id" FROM df
+FILLNA COLUMN "age" WITH MEAN FROM df
+FILLNA COLUMN "salary" WITH MEDIAN FROM df
+TRIM COLUMN "city" FROM df
+LOWERCASE COLUMN "city" FROM df
+NORMALIZE COLUMN "salary" FROM df
+ENCODE COLUMN "gender" METHOD ONEHOT FROM df
+FILTER df WHERE "age" >= 18
+DEDUPLICATE df
+SORT df BY "salary" DESC
+EXPORT df AS "output.csv"

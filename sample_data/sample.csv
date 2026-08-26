@@ -1,0 +1,14 @@
+id,name,age,city,gender,salary
+1,Asha,29,Chennai,F,52000
+2,Ravi,,Bengaluru,M,61000
+3,Meera,34,  Chennai  ,F,
+4,Karthik,41,Hyderabad,M,73000
+5,Divya,25,Chennai,F,48500
+6,Suresh,,Mumbai,M,58000
+7,Priya,31,bengaluru,F,66000
+8,Arjun,38,Hyderabad,M,
+9,Kavya,27,Chennai,F,51000
+10,Vikram,45,Mumbai,M,84000
+10,Vikram,45,Mumbai,M,84000
+11,Nithya,,Bengaluru,F,59500
+12,Manoj,52,Hyderabad,M,91000
